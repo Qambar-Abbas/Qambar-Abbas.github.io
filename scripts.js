@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: 'logos:react'
         },
         {
-            name: 'Vue.js',
-            description: 'Progressive framework for building UIs.',
-            icon: 'logos:vue'
-        },
-        {
             name: 'Flutter',
             description: 'UI toolkit for natively compiled apps.',
             icon: 'logos:flutter'
@@ -36,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const FRAMEWORKSContainer = document.querySelector('.FRAMEWORKS-container');
 
-    // Function to append cloned cards
+    // Function to append cloned cards to create seamless infinite scrolling
     function cloneFRAMEWORKS() {
         const originalCards = Array.from(FRAMEWORKSContainer.children);
         originalCards.forEach(card => {
-            const clonedCard = card.cloneNode(true);
-            FRAMEWORKSContainer.appendChild(clonedCard);
+            const clonedCard = card.cloneNode(true); // Clone each card
+            FRAMEWORKSContainer.appendChild(clonedCard); // Append cloned card
         });
     }
 
@@ -68,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Clone framework cards to create a seamless loop
-    cloneFRAMEWORKS();
+    cloneFRAMEWORKS(); // Clone initially to make it seamless
+
 
 
     const PROJECTS = [

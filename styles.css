@@ -52,20 +52,12 @@ section {
 }
 
 /* FRAMEWORKS Section */
-/* FRAMEWORKS Section */
 
 /* Continuous Scrolling */
-.FRAMEWORKS-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: auto;
-}
-
 .FRAMEWORKS-container {
     display: flex;
-    animation: scroll-horizontal 30s linear infinite;
-    width: max-content; /* Auto adjust to the width of children */
+    animation: scroll-horizontal 15s linear infinite; /* Increased duration for smoother scrolling */
+    width: max-content; /* Automatically adjust to the width of children */
 }
 
 .framework-card {
@@ -77,44 +69,27 @@ section {
     margin-right: 20px;
     text-align: center;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    white-space: nowrap; /* Prevent text from wrapping */
-    max-width: 300px; /* Prevent cards from getting too wide */
+    max-width: 300px; 
     max-height: 200px;
-    flex-shrink: 0; /* Prevent cards from shrinking */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ensure smooth transition */
-    position: relative; /* Ensure proper positioning */
+    flex-shrink: 0; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .framework-card:hover {
     transform: scale(1.05);
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow effect */
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.framework-card h3 {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.framework-card p {
-    font-size: 0.9em;
-    color: #666;
-    overflow: hidden; /* Prevent overflow of paragraph text */
-    white-space: nowrap; /* Keep text on a single line */
-    text-overflow: ellipsis; /* Apply ellipsis for overflowing text */
-}
-
-/* Ensure smooth animation */
+/* Keyframe for continuous horizontal scrolling */
 @keyframes scroll-horizontal {
     0% {
-        transform: translateX(0); /* Start at 0 */
+        transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%); /* Move fully to the left */
+        transform: translateX(-50%); /* Stop at 50% so it loops smoothly */
     }
 }
+
 
 
 /* PROJECTS Section */
