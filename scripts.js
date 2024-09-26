@@ -40,6 +40,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Pause the animation when the mouse enters the list
+    FRAMEWORKSContainer.addEventListener('mouseenter', () => {
+        FRAMEWORKSContainer.style.animationPlayState = 'paused'; // Pause the scrolling animation
+    });
+
+    // Resume the animation when the mouse leaves the list
+    FRAMEWORKSContainer.addEventListener('mouseleave', () => {
+        FRAMEWORKSContainer.style.animationPlayState = 'running'; // Resume the scrolling animation
+    });
+
     // Create cards for each framework
     FRAMEWORKS.forEach(framework => {
         const frameworkCard = document.createElement('div');
@@ -55,10 +65,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const description = document.createElement('p');
         description.textContent = framework.description;
 
+        // Add "View Projects" button inside the framework card
+        const viewProjectsButton = document.createElement('button');
+        viewProjectsButton.textContent = 'View Projects';
+        viewProjectsButton.classList.add('view-projects-button');
+
+        // Button click event
+        viewProjectsButton.addEventListener('click', () => {
+            window.location.href = '#projects'; // Adjust to your specific projects section
+        });
+
+        // Append elements to frameworkCard
         frameworkCard.appendChild(icon);
         frameworkCard.appendChild(title);
         frameworkCard.appendChild(description);
+        frameworkCard.appendChild(viewProjectsButton); // Now append the button inside the framework card
 
+        // Append the frameworkCard to the container
         FRAMEWORKSContainer.appendChild(frameworkCard);
     });
 
