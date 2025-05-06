@@ -1,59 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Mobile Navigation Toggle
+    const hamburger = document.querySelector('.hamburger');
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('header nav ul li a');
 
-    // Initialize framework cards for horizontal scrolling
-    const FRAMEWORKS = [
-        {
-            name: 'React',
-            description: 'JavaScript library for building user interfaces.',
-            icon: 'logos:react'
-        },
-        {
-            name: 'Flutter',
-            description: 'UI toolkit for natively compiled apps.',
-            icon: 'logos:flutter'
-        },
-        {
-            name: 'Django',
-            description: 'Python-based web framework.',
-            icon: 'logos:django'
-        },
-        {
-            name: 'Node.js',
-            description: 'JavaScript runtime for server-side scripting.',
-            icon: 'logos:nodejs'
-        },
-        {
-            name: 'React Native',
-            description: 'Framework for building native apps with React.',
-            icon: 'logos:react' // Closest match
-        }
-    ];
-
-    const FRAMEWORKSContainer = document.querySelector('.FRAMEWORKS-container');
-
-    // Function to append cloned cards to create seamless infinite scrolling
-    function cloneFRAMEWORKS() {
-        const originalCards = Array.from(FRAMEWORKSContainer.children);
-        originalCards.forEach(card => {
-            const clonedCard = card.cloneNode(true); // Clone each card
-            FRAMEWORKSContainer.appendChild(clonedCard); // Append cloned card
+    if (hamburger) {
+        hamburger.addEventListener('click', function () {
+            header.classList.toggle('active');
         });
     }
 
-    // Pause the animation when the mouse enters the list
-    FRAMEWORKSContainer.addEventListener('mouseenter', () => {
-        FRAMEWORKSContainer.style.animationPlayState = 'paused'; // Pause the scrolling animation
+    // Close mobile menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            header.classList.remove('active');
+        });
     });
 
-    // Resume the animation when the mouse leaves the list
-    FRAMEWORKSContainer.addEventListener('mouseleave', () => {
-        FRAMEWORKSContainer.style.animationPlayState = 'running'; // Resume the scrolling animation
+    // Header Scroll Effect
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 50) {
+            header.style.padding = '15px 0';
+            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.padding = '20px 0';
+            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+        }
     });
+
+    // Initialize framework cards for horizontal scrolling
+    const FRAMEWORKS = [
+        { name: 'React', description: 'JavaScript library for building user interfaces.', icon: 'logos:react' },
+        { name: 'Flutter', description: 'UI toolkit for natively compiled apps.', icon: 'logos:flutter' },
+        { name: 'Django', description: 'Python-based web framework.', icon: 'logos:django' },
+        { name: 'Node.js', description: 'JavaScript runtime for server-side scripting.', icon: 'logos:nodejs' },
+        { name: 'React Native', description: 'Framework for building native apps with React.', icon: 'logos:react' }
+    ];
+
+    const frameworksContainer = document.querySelector('.frameworks-container');
 
     // Create cards for each framework
     FRAMEWORKS.forEach(framework => {
-        const frameworkCard = document.createElement('div');
-        frameworkCard.classList.add('framework-card');
+        const card = document.createElement('div');
+        card.classList.add('framework-card');
 
         const icon = document.createElement('span');
         icon.classList.add('iconify');
@@ -62,79 +51,133 @@ document.addEventListener('DOMContentLoaded', function () {
         const title = document.createElement('h3');
         title.textContent = framework.name;
 
-        const description = document.createElement('p');
-        description.textContent = framework.description;
+        const desc = document.createElement('p');
+        desc.textContent = framework.description;
 
-        // Add "View Projects" button inside the framework card
-        const viewProjectsButton = document.createElement('button');
-        viewProjectsButton.textContent = 'View Projects';
-        viewProjectsButton.classList.add('view-projects-button');
-
-        // Button click event
-        viewProjectsButton.addEventListener('click', () => {
-            window.location.href = '#projects'; // Adjust to your specific projects section
+        const btn = document.createElement('button');
+        btn.textContent = 'View Projects';
+        btn.classList.add('view-projects-button');
+        btn.addEventListener('click', () => {
+            document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Append elements to frameworkCard
-        frameworkCard.appendChild(icon);
-        frameworkCard.appendChild(title);
-        frameworkCard.appendChild(description);
-        frameworkCard.appendChild(viewProjectsButton); // Now append the button inside the framework card
-
-        // Append the frameworkCard to the container
-        FRAMEWORKSContainer.appendChild(frameworkCard);
+        [icon, title, desc, btn].forEach(el => card.appendChild(el));
+        frameworksContainer.appendChild(card);
     });
 
-    // Clone framework cards to create a seamless loop
-    cloneFRAMEWORKS(); // Clone initially to make it seamless
+    // Clone framework cards to create seamless infinite scrolling
+    function cloneFrameworks() {
+        const originals = Array.from(frameworksContainer.children);
+        originals.forEach(card => {
+            frameworksContainer.appendChild(card.cloneNode(true));
+        });
+    }
+    cloneFrameworks();
 
+    // Pause/resume scrolling on hover
+    frameworksContainer.addEventListener('mouseenter', () => {
+        frameworksContainer.style.animationPlayState = 'paused';
+    });
+    frameworksContainer.addEventListener('mouseleave', () => {
+        frameworksContainer.style.animationPlayState = 'running';
+    });
 
-
+    // Projects setup
     const PROJECTS = [
         {
             name: 'Nuevadesk',
             description: 'Nuevadesk Mobile App is your trusted companion in managing customer relationships and nurturing your business connections, all in the palm of your hand.',
             link: 'https://play.google.com/store/apps/details?id=app.instaview365.nuevadesk&pcampaignid=web_share',
-            gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)' // Gradient background
+            gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)'
         },
         {
             name: 'Eatit',
             description: 'Eatit is your ultimate kitchen companion, designed specifically for home chefs. This intuitive app takes the guesswork out of meal planning, helping you decide what\'s for breakfast, lunch, and dinner with ease.',
             link: 'https://github.com/QambarOfficial/eatit.git',
-            gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)' // Gradient background
+            gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
         },
         {
             name: 'Chatbot',
             description: 'A description of the third project.',
             link: '#',
-            gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)' // Gradient background
+            gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)'
         }
     ];
 
-    const PROJECTSContainer = document.querySelector('.PROJECTS-container');
-
-    // Create project cards
+    const projectsContainer = document.querySelector('.projects-container');
     PROJECTS.forEach(project => {
-        const projectCard = document.createElement('div');
-        projectCard.classList.add('project-card');
-        projectCard.style.background = project.gradient; // Set gradient background
+        const card = document.createElement('div');
+        card.classList.add('project-card');
+
+        const stripe = document.createElement('div');
+        stripe.classList.add('project-card-gradient');
+        stripe.style.background = project.gradient;
+
+        const content = document.createElement('div');
+        content.classList.add('project-card-content');
 
         const title = document.createElement('h3');
         title.textContent = project.name;
 
-        const description = document.createElement('p');
-        description.textContent = project.description;
+        const desc = document.createElement('p');
+        desc.textContent = project.description;
 
         const link = document.createElement('a');
         link.href = project.link;
         link.textContent = 'View Project';
         link.classList.add('project-link');
+        link.target = '_blank';
 
-        projectCard.appendChild(title);
-        projectCard.appendChild(description);
-        projectCard.appendChild(link);
-
-        PROJECTSContainer.appendChild(projectCard);
+        [title, desc, link].forEach(el => content.appendChild(el));
+        [stripe, content].forEach(el => card.appendChild(el));
+        projectsContainer.appendChild(card);
     });
 
-});
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Reveal-on-scroll animations
+    const revealElements = document.querySelectorAll('.section-header, .skill-item, .project-card, .framework-card');
+    function revealOnScroll() {
+        revealElements.forEach(el => {
+            const top = el.getBoundingClientRect().top;
+            if (top < window.innerHeight - 150) {
+                el.classList.add('active');
+            }
+        });
+    }
+
+    // Inject reveal CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      .section-header, .skill-item, .project-card, .framework-card {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .section-header.active, .skill-item.active, .project-card.active, .framework-card.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .skill-item:nth-child(1) { transition-delay: 0.1s; }
+      .skill-item:nth-child(2) { transition-delay: 0.2s; }
+      .skill-item:nth-child(3) { transition-delay: 0.3s; }
+      .skill-item:nth-child(4) { transition-delay: 0.4s; }
+    `;
+    document.head.appendChild(style);
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+}); // end DOMContentLoaded
