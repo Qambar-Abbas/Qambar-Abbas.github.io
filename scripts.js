@@ -76,6 +76,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     cloneFrameworks();
 
+    // Enable gesture-based horizontal scrolling
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    frameworksContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        frameworksContainer.classList.add('dragging');
+        startX = e.pageX - frameworksContainer.offsetLeft;
+        scrollLeft = frameworksContainer.scrollLeft;
+    });
+    frameworksContainer.addEventListener('mouseleave', () => {
+        isDown = false;
+        frameworksContainer.classList.remove('dragging');
+    });
+    frameworksContainer.addEventListener('mouseup', () => {
+        isDown = false;
+        frameworksContainer.classList.remove('dragging');
+    });
+    frameworksContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - frameworksContainer.offsetLeft;
+        const walk = (x - startX) * 2; // scroll speed
+        frameworksContainer.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch support for mobile
+    frameworksContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX;
+        scrollLeft = frameworksContainer.scrollLeft;
+    });
+    frameworksContainer.addEventListener('touchmove', (e) => {
+        const x = e.touches[0].pageX;
+        const walk = (x - startX) * 2;
+        frameworksContainer.scrollLeft = scrollLeft - walk;
+    });
+
     // Pause/resume scrolling on hover
     frameworksContainer.addEventListener('mouseenter', () => {
         frameworksContainer.style.animationPlayState = 'paused';
@@ -87,23 +125,24 @@ document.addEventListener('DOMContentLoaded', function () {
     // Projects setup
     const PROJECTS = [
         {
+            name: 'Inbox Cleaner ',
+            description: 'Inbox Cleaner & Classifier is an open-source Python CLI tool that leverages the Gmail API and Google Gemini Pro to automatically sort emails into hot leads, follow-ups, or ignores.',
+            link: 'https://github.com/QambarOfficial/inbox_cleaner.git',
+            gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)'
+        },
+        {
             name: 'Nuevadesk',
-            description: 'Nuevadesk Mobile App is your trusted companion in managing customer relationships and nurturing your business connections, all in the palm of your hand.',
+            description: 'Nuevadesk is a cross platform mobile CRM software built for managing customer relationships and nurturing your business connections.',
             link: 'https://play.google.com/store/apps/details?id=app.instaview365.nuevadesk&pcampaignid=web_share',
             gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)'
         },
         {
-            name: 'Eatit',
-            description: 'Eatit is your ultimate kitchen companion, designed specifically for home chefs. This intuitive app takes the guesswork out of meal planning, helping you decide what\'s for breakfast, lunch, and dinner with ease.',
+            name: 'Eat-it',
+            description: 'Eatit is an Android application built for scheduling a weekly menu for your family, with family management and a chat room.',
             link: 'https://github.com/QambarOfficial/eatit.git',
             gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
         },
-        {
-            name: 'Chatbot',
-            description: 'A description of the third project.',
-            link: '#',
-            gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)'
-        }
+
     ];
 
     const projectsContainer = document.querySelector('.projects-container');
