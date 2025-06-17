@@ -1,3 +1,4 @@
+/* Modern Portfolio CSS */
 :root {
     --primary-color: #3a86ff;
     --secondary-color: #6b48ff;
@@ -13,7 +14,7 @@
     --container-width: 1200px;
 }
 
-
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -118,7 +119,7 @@ img {
     border-radius: 2px;
 }
 
-
+/* Header */
 header {
     position: fixed;
     width: 100%;
@@ -139,12 +140,27 @@ header .container {
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary-color);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.logo-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    transform: scale(0.8);
+}
+
+.scrolled .logo-image {
+    opacity: 1;
+    transform: scale(1);
 }
 
 header nav ul {
@@ -193,7 +209,7 @@ header nav ul li a:hover::after {
     transition: var(--transition);
 }
 
-
+/* Hero Section */
 .hero {
     padding-top: 160px;
     padding-bottom: 100px;
@@ -228,11 +244,13 @@ header nav ul li a:hover::after {
 .hero-text .bio {
     margin-bottom: 30px;
     color: var(--text-secondary);
+
 }
 
 .hero-cta {
     display: flex;
     gap: 15px;
+
 }
 
 .hero-image {
@@ -249,9 +267,15 @@ header nav ul li a:hover::after {
     object-fit: cover;
     border: 5px solid var(--light-color);
     box-shadow: var(--shadow);
+    transition: transform 0.5s ease;
 }
 
+.profile-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
 
+/* Skills Section */
 .skills {
     background-color: var(--gray-color);
 }
@@ -285,24 +309,19 @@ header nav ul li a:hover::after {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
     overflow: hidden;
-
     width: 100%;
-
     height: 100%;
-
+    aspect-ratio: 1/1;
 }
 
-
 .skill-item img,
-.skill-item svg {
+.skill-item svg,
+.skill-item .iconify {
     max-width: 100%;
-
     max-height: 60px;
-
     object-fit: contain;
-
     margin-bottom: 10px;
-
+    font-size: 40px;
 }
 
 .skill-item span,
@@ -310,9 +329,7 @@ header nav ul li a:hover::after {
     text-align: center;
     width: 100%;
     word-wrap: break-word;
-
     font-size: 0.9rem;
-
 }
 
 .skill-item:hover {
@@ -320,17 +337,12 @@ header nav ul li a:hover::after {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.skill-item .iconify {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
 .skill-item span:last-child {
-    font-size: 0.9rem;
     font-weight: 500;
+    margin-top: 5px;
 }
 
-
+/* Frameworks Section */
 .frameworks {
     background-color: var(--light-color);
 }
@@ -405,7 +417,7 @@ header nav ul li a:hover::after {
     }
 }
 
-
+/* Projects Section */
 .projects {
     background-color: var(--gray-color);
 }
@@ -423,6 +435,7 @@ header nav ul li a:hover::after {
     box-shadow: var(--shadow);
     transition: var(--transition);
     position: relative;
+    height: 100%;
 }
 
 .project-card:hover {
@@ -440,6 +453,9 @@ header nav ul li a:hover::after {
 
 .project-card-content {
     padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .project-card h3 {
@@ -450,8 +466,11 @@ header nav ul li a:hover::after {
 .project-card p {
     color: var(--text-secondary);
     margin-bottom: 20px;
-    height: 80px;
+    flex-grow: 1;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .project-link {
@@ -462,6 +481,7 @@ header nav ul li a:hover::after {
     border-radius: 25px;
     font-weight: 500;
     transition: var(--transition);
+    align-self: flex-start;
 }
 
 .project-link:hover {
@@ -469,7 +489,7 @@ header nav ul li a:hover::after {
     box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
 }
 
-
+/* Contact Section */
 .contact {
     background-color: var(--light-color);
 }
@@ -536,7 +556,7 @@ header nav ul li a:hover::after {
     box-shadow: 0 10px 20px rgba(58, 134, 255, 0.4);
 }
 
-
+/* Footer */
 footer {
     background-color: var(--dark-color);
     color: white;
@@ -544,7 +564,7 @@ footer {
     text-align: center;
 }
 
-
+/* Responsive */
 @media (max-width: 1024px) {
     .hero-text h1 {
         font-size: 3rem;
@@ -600,7 +620,7 @@ footer {
         display: flex;
     }
 
-
+    /* Mobile navigation styles would be added with JavaScript */
     header.active nav {
         display: block;
         position: absolute;
@@ -615,6 +635,11 @@ footer {
         flex-direction: column;
         padding: 20px;
         gap: 15px;
+    }
+
+    .logo-image {
+        height: 35px;
+        width: 35px;
     }
 }
 

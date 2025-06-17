@@ -17,14 +17,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Header Scroll Effect
+    // Header Scroll Effect - Show profile photo in logo when scrolling
     window.addEventListener('scroll', function () {
         if (window.scrollY > 50) {
             header.style.padding = '15px 0';
             header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            header.classList.add('scrolled');
         } else {
             header.style.padding = '20px 0';
             header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+            header.classList.remove('scrolled');
         }
     });
 
