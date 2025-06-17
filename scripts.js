@@ -76,44 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     cloneFrameworks();
 
-    // Enable gesture-based horizontal scrolling
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    frameworksContainer.addEventListener('mousedown', (e) => {
-        isDown = true;
-        frameworksContainer.classList.add('dragging');
-        startX = e.pageX - frameworksContainer.offsetLeft;
-        scrollLeft = frameworksContainer.scrollLeft;
-    });
-    frameworksContainer.addEventListener('mouseleave', () => {
-        isDown = false;
-        frameworksContainer.classList.remove('dragging');
-    });
-    frameworksContainer.addEventListener('mouseup', () => {
-        isDown = false;
-        frameworksContainer.classList.remove('dragging');
-    });
-    frameworksContainer.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - frameworksContainer.offsetLeft;
-        const walk = (x - startX) * 2; // scroll speed
-        frameworksContainer.scrollLeft = scrollLeft - walk;
-    });
-
-    // Touch support for mobile
-    frameworksContainer.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].pageX;
-        scrollLeft = frameworksContainer.scrollLeft;
-    });
-    frameworksContainer.addEventListener('touchmove', (e) => {
-        const x = e.touches[0].pageX;
-        const walk = (x - startX) * 2;
-        frameworksContainer.scrollLeft = scrollLeft - walk;
-    });
-
     // Pause/resume scrolling on hover
     frameworksContainer.addEventListener('mouseenter', () => {
         frameworksContainer.style.animationPlayState = 'paused';

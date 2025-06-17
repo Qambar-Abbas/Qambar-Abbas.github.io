@@ -359,11 +359,6 @@ header nav ul li a:hover::after {
     width: max-content;
 }
 
-.frameworks-container.dragging {
-    cursor: grabbing;
-    scroll-behavior: auto;
-}
-
 .framework-card {
     background-color: var(--light-color);
     border-radius: var(--border-radius);
