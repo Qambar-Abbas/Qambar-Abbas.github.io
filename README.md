@@ -112,20 +112,20 @@ I thrive on solving complex data challenges and delivering production-ready, dat
 
 ## 🎓 Certifications & Education
 
-* **BCA ’25** with specialization in AI/ML & Full‑Stack Development
-* **Coursera**: Deep Learning Specialization; MLOps Engineering on GCP; Advanced NLP
-* **Open-Source Contributions**: Actively contributing to ML and Flutter ecosystems
+* **Bachelor of Computer Applications (BCA)** – 2025 (AI/ML Focused)
+* **Coursera**: Deep Learning Specialization, MLOps Engineering (GCP), Advanced NLP
+* **Open-Source**: Contributor to Flutter, Django, and AI/ML repositories
 
 ---
 
 ## 📫 Connect with Me
 
 <p align="center">
-  <a href="https://linkedin.com/in/qambar-abbas-ai-ml"><img src="https://img.shields.io/badge/LinkedIn-Qambar%20Abbas-blue?style=flat&logo=linkedin" alt="LinkedIn"></a>&nbsp;
+  <a href="https://www.linkedin.com/in/qambar-abbas-500438307/"><img src="https://img.shields.io/badge/LinkedIn-Qambar%20Abbas-blue?style=flat&logo=linkedin" alt="LinkedIn"></a>&nbsp;
   <a href="https://medium.com/@QambarAbbas"><img src="https://img.shields.io/badge/Medium-@QambarAbbas-black?style=flat&logo=medium" alt="Medium"></a>&nbsp;
-  <a href="mailto:qambar.abbas@example.com"><img src="https://img.shields.io/badge/Email-qambar.abbas@example.com-green?style=flat&logo=gmail" alt="Email"></a>
+  <a href="mailto:qambarofficial313@gmail.com"><img src="https://img.shields.io/badge/Email-qambarofficial313@gmail.com-green?style=flat&logo=gmail" alt="Email"></a>
 </p>
 
 ---
 
-<p align="center">_"Turning complex data into actionable insights, one model at a time."_</p>
+<p align="center">_"Machines Don't Have Imagination"_</p>
