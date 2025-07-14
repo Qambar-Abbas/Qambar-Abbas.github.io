@@ -1,4 +1,5 @@
 <!--
+v1.0.9
   🚀 Ultimate SEO-Optimized GitHub Profile README for Qambar Abbas
   🔍 Enhanced visuals, badges, and metadata for maximum discoverability
 -->
