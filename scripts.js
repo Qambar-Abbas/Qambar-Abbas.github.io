@@ -60,7 +60,13 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.textContent = 'View Projects';
         btn.classList.add('view-projects-button');
         btn.addEventListener('click', () => {
-            document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
+            const targetId = `#projects-${framework.name.toLowerCase().replace(/\s+/g, '-')}`;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
+            }
         });
 
         [icon, title, desc, btn].forEach(el => card.appendChild(el));
@@ -84,56 +90,138 @@ document.addEventListener('DOMContentLoaded', function () {
         frameworksContainer.style.animationPlayState = 'running';
     });
 
-    // Projects setup
-    const PROJECTS = [
+    // Projects setup - Grouped by framework
+    const PROJECT_GROUPS = [
         {
-            name: 'Inbox Cleaner ',
-            description: 'Inbox Cleaner & Classifier is an open-source Python CLI tool that leverages the Gmail API and Google Gemini Pro to automatically sort emails into hot leads, follow-ups, or ignores.',
-            link: 'https://github.com/QambarOfficial/inbox_cleaner.git',
-            gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)'
+            title: 'React',
+            projects: [
+                {
+                    name: 'Task Manager App',
+                    description: 'A responsive task management application with drag-and-drop features.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #61DAFB, #2B6CB0)'
+                },
+                {
+                    name: 'E-commerce Dashboard',
+                    description: 'Dashboard for managing e-commerce products and orders.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #4A5568, #2D3748)'
+                }
+            ]
         },
         {
-            name: 'Nuevadesk',
-            description: 'Nuevadesk is a cross platform mobile CRM software built for managing customer relationships and nurturing your business connections.',
-            link: 'https://play.google.com/store/apps/details?id=app.instaview365.nuevadesk&pcampaignid=web_share',
-            gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)'
+            title: 'Flutter',
+            projects: [
+                {
+                    name: 'Nuevadesk',
+                    description: 'Cross-platform CRM mobile software.',
+                    link: 'https://play.google.com/store/apps/details?id=app.instaview365.nuevadesk',
+                    gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)'
+                },
+                {
+                    name: 'Eat-it',
+                    description: 'Family weekly menu scheduling app with chat.',
+                    link: 'https://github.com/QambarOfficial/eatit.git',
+                    gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
+                }
+            ]
         },
         {
-            name: 'Eat-it',
-            description: 'Eatit is an Android application built for scheduling a weekly menu for your family, with family management and a chat room.',
-            link: 'https://github.com/QambarOfficial/eatit.git',
-            gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
+            title: 'Django',
+            projects: [
+                {
+                    name: 'Inbox Cleaner',
+                    description: 'Inbox Cleaner & Classifier using Gmail API & Gemini Pro.',
+                    link: 'https://github.com/QambarOfficial/inbox_cleaner.git',
+                    gradient: 'linear-gradient(135deg, #2E3192, #1BFFFF)'
+                },
+                {
+                    name: 'Blog Platform',
+                    description: 'A full-featured blog platform with user authentication and comments.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #0C4B33, #1A936F)'
+                }
+            ]
         },
-
+        {
+            title: 'Node.js',
+            projects: [
+                {
+                    name: 'Chat Application',
+                    description: 'Real-time chat app using WebSockets and Express.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #339933, #66CC66)'
+                },
+                {
+                    name: 'API Server for Mobile App',
+                    description: 'RESTful API server for a mobile application with JWT authentication.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #333333, #666666)'
+                }
+            ]
+        },
+        {
+            title: 'React Native',
+            projects: [
+                {
+                    name: 'Fitness Tracker',
+                    description: 'Mobile app for tracking workouts and nutrition.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #FF6B6B, #FF8E53)'
+                },
+                {
+                    name: 'Weather App',
+                    description: 'Weather forecasting app with location services.',
+                    link: '#',
+                    gradient: 'linear-gradient(135deg, #4ECDC4, #556270)'
+                }
+            ]
+        }
     ];
 
     const projectsContainer = document.querySelector('.projects-container');
-    PROJECTS.forEach(project => {
-        const card = document.createElement('div');
-        card.classList.add('project-card');
 
-        const stripe = document.createElement('div');
-        stripe.classList.add('project-card-gradient');
-        stripe.style.background = project.gradient;
+    PROJECT_GROUPS.forEach(group => {
+        // Add headline with ID for scrolling
+        const headline = document.createElement('h3');
+        headline.classList.add('project-group-title');
+        headline.textContent = group.title;
+        headline.id = `projects-${group.title.toLowerCase().replace(/\s+/g, '-')}`;
+        projectsContainer.appendChild(headline);
 
-        const content = document.createElement('div');
-        content.classList.add('project-card-content');
+        // Create container for this group
+        const groupWrapper = document.createElement('div');
+        groupWrapper.classList.add('project-group');
 
-        const title = document.createElement('h3');
-        title.textContent = project.name;
+        group.projects.forEach(project => {
+            const card = document.createElement('div');
+            card.classList.add('project-card');
 
-        const desc = document.createElement('p');
-        desc.textContent = project.description;
+            const stripe = document.createElement('div');
+            stripe.classList.add('project-card-gradient');
+            stripe.style.background = project.gradient;
 
-        const link = document.createElement('a');
-        link.href = project.link;
-        link.textContent = 'View Project';
-        link.classList.add('project-link');
-        link.target = '_blank';
+            const content = document.createElement('div');
+            content.classList.add('project-card-content');
 
-        [title, desc, link].forEach(el => content.appendChild(el));
-        [stripe, content].forEach(el => card.appendChild(el));
-        projectsContainer.appendChild(card);
+            const title = document.createElement('h3');
+            title.textContent = project.name;
+
+            const desc = document.createElement('p');
+            desc.textContent = project.description;
+
+            const link = document.createElement('a');
+            link.href = project.link;
+            link.textContent = 'View Project';
+            link.classList.add('project-link');
+            link.target = '_blank';
+
+            [title, desc, link].forEach(el => content.appendChild(el));
+            [stripe, content].forEach(el => card.appendChild(el));
+            groupWrapper.appendChild(card);
+        });
+
+        projectsContainer.appendChild(groupWrapper);
     });
 
     // Smooth scrolling for anchor links
