@@ -189,7 +189,6 @@ document.addEventListener('DOMContentLoaded', function () {
         headline.id = `projects-${group.title.toLowerCase().replace(/\s+/g, '-')}`;
         projectsContainer.appendChild(headline);
 
-        // Create container for this group
         const groupWrapper = document.createElement('div');
         groupWrapper.classList.add('project-group');
 
