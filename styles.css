@@ -742,6 +742,12 @@ header.active .hamburger span:nth-child(3) {
     animation: scroll-horizontal 40s linear infinite;
     width: max-content;
     gap: clamp(1rem, 3vw, 2rem);
+    overflow-x: auto;
+    /* allows manual swipe on mobile */
+    scroll-snap-type: x mandatory;
+    /* optional: nicer UX */
+    -webkit-overflow-scrolling: touch;
+    /* smooth scroll on iOS */
 }
 
 .frameworks-container:hover {

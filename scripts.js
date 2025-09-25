@@ -224,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
         frameworksContainer.addEventListener('mouseleave', resumeMarquee);
         frameworksContainer.addEventListener('touchstart', pauseMarquee, { passive: true });
         frameworksContainer.addEventListener('touchend', resumeMarquee);
+        frameworksContainer.addEventListener('touchcancel', resumeMarquee);
         frameworksContainer.addEventListener('pointerdown', pauseMarquee);
         frameworksContainer.addEventListener('pointerup', resumeMarquee);
         document.addEventListener('visibilitychange', () => {
@@ -232,9 +233,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function restartMarqueeAnimation() {
             frameworksContainer.style.animation = 'none';
-            frameworksContainer.offsetHeight;
-            frameworksContainer.style.animation = '';
-            frameworksContainer.style.animationPlayState = 'running';
+            requestAnimationFrame(() => {
+                frameworksContainer.style.animation = '';
+                frameworksContainer.style.animationPlayState = 'running';
+            });
         }
 
         let resizeTimeout;
@@ -321,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     name: 'E-commerce Dashboard',
                     description: 'Dashboard for managing e-commerce products and orders.',
-                    link: 'https://Qambar-Abbas.github.io/React-E-commerce-Dashboard"',
+                    link: 'https://qambar-abbas.github.io/React-E-commerce-Dashboard/',
                     gradient: 'linear-gradient(135deg, #4A5568, #7897cbff)'
                 }
             ]
