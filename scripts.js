@@ -1,31 +1,158 @@
-// scripts.js - improved version
+// scripts.js - improved version (updated small accessibility behavior)
+
+// ===== Theme handling (top of file) =====
+(function () {
+    const THEME_KEY = 'theme'; // values: 'light' | 'dark' | 'auto'
+    const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try { document.documentElement.style.colorScheme = theme; } catch (e) { /* noop */ }
+    }
+
+    function getStoredTheme() {
+        return localStorage.getItem(THEME_KEY);
+    }
+
+    function setStoredTheme(value) {
+        localStorage.setItem(THEME_KEY, value);
+        if (value === 'auto') {
+            applyTheme(mq && mq.matches ? 'dark' : 'light');
+        } else {
+            applyTheme(value);
+        }
+    }
+
+    function onSystemChange(e) {
+        const stored = getStoredTheme();
+        if (!stored || stored === 'auto') {
+            applyTheme(e.matches ? 'dark' : 'light');
+            window.dispatchEvent(new CustomEvent('theme:systemChange', { detail: { dark: e.matches } }));
+        }
+    }
+
+    (function initTheme() {
+        const stored = getStoredTheme();
+        if (stored === 'light' || stored === 'dark') {
+            applyTheme(stored);
+        } else {
+            applyTheme(mq && mq.matches ? 'dark' : 'light');
+            if (!stored) localStorage.setItem(THEME_KEY, 'auto');
+        }
+
+        if (mq && typeof mq.addEventListener === 'function') {
+            mq.addEventListener('change', onSystemChange);
+        } else if (mq && typeof mq.addListener === 'function') {
+            mq.addListener(onSystemChange);
+        }
+    })();
+
+    window.themeControl = {
+        set: setStoredTheme,
+        get: getStoredTheme,
+        toggle: function () {
+            const curStored = getStoredTheme();
+            const effective = (curStored === 'light' || (curStored === 'auto' && mq && !mq.matches) || (!curStored && mq && !mq.matches)) ? 'light' : 'dark';
+            const next = effective === 'dark' ? 'light' : 'dark';
+            setStoredTheme(next);
+        },
+        resetToSystem: function () { setStoredTheme('auto'); }
+    };
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Mobile Navigation Toggle ---
+
+    // Theme toggle wiring
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-toggle-icon');
+
+    function getEffectiveTheme() {
+        const stored = localStorage.getItem('theme');
+        if (!stored || stored === 'auto') {
+            return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        return stored;
+    }
+
+    function refreshToggleUI() {
+        const effective = getEffectiveTheme();
+        themeIcon.textContent = effective === 'dark' ? '🌙' : '☀️';
+        if (themeToggleBtn) {
+            themeToggleBtn.setAttribute('aria-pressed', effective === 'dark' ? 'true' : 'false');
+            themeToggleBtn.title = effective === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+        }
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const curStored = localStorage.getItem('theme');
+            const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+            const effective = (curStored === 'light' || (curStored === 'auto' && mq && !mq.matches) || (!curStored && mq && !mq.matches)) ? 'light' : 'dark';
+            const next = effective === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', next);
+            document.documentElement.setAttribute('data-theme', next);
+            document.documentElement.style.colorScheme = next;
+            refreshToggleUI();
+        });
+
+        refreshToggleUI();
+
+        window.addEventListener('theme:systemChange', refreshToggleUI);
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => {
+            refreshToggleUI();
+        });
+    }
+
+    // --- Mobile Navigation Toggle (UPDATED with ARIA sync) ---
     const hamburger = document.querySelector('.hamburger');
     const header = document.querySelector('header');
     const navLinks = document.querySelectorAll('header nav ul li a');
+    const navbar = document.getElementById('navbar');
 
     if (hamburger) {
-        hamburger.addEventListener('click', function () {
-            header.classList.toggle('active');
+        const toggleMenu = () => {
+            const isActive = header.classList.toggle('active');
+            // sync ARIA attributes
+            hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            hamburger.setAttribute('aria-label', isActive ? 'Close menu' : 'Open menu');
+            // also manage inert/aria-hidden on navbar if you want (optional)
+            if (navbar) navbar.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        };
+        hamburger.addEventListener('click', toggleMenu);
+        hamburger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+            }
         });
+
+        // ensure initial state matches header.active
+        const initialActive = header.classList.contains('active');
+        hamburger.setAttribute('aria-expanded', initialActive ? 'true' : 'false');
+        hamburger.setAttribute('aria-label', initialActive ? 'Close menu' : 'Open menu');
+        if (navbar) navbar.setAttribute('aria-hidden', initialActive ? 'false' : 'true');
     }
 
     navLinks.forEach(link => {
         link.addEventListener('click', function () {
             header.classList.remove('active');
+            if (hamburger) {
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.setAttribute('aria-label', 'Open menu');
+            }
+            if (navbar) navbar.setAttribute('aria-hidden', 'true');
         });
     });
 
-    // --- Header Scroll Effect ---
+    // --- Header Scroll Effect (slightly adjusted) ---
     window.addEventListener('scroll', function () {
         if (window.scrollY > 50) {
             header.style.padding = '15px 0';
-            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.08)';
             header.classList.add('scrolled');
         } else {
             header.style.padding = '20px 0';
-            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+            header.style.boxShadow = '';
             header.classList.remove('scrolled');
         }
     });
@@ -61,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const btn = document.createElement('button');
             btn.textContent = 'View Projects';
             btn.classList.add('view-projects-button');
-            // don't add per-button listeners (we'll use delegation)
 
             [icon, title, desc, btn].forEach(el => card.appendChild(el));
             frameworksContainer.appendChild(card);
@@ -72,10 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Clone framework cards until container has enough content for seamless scroll
         function cloneFrameworksForMarquee() {
-            // remove previously cloned nodes (to avoid repeated appends)
             Array.from(frameworksContainer.querySelectorAll('.cloned')).forEach(n => n.remove());
-
-            // Append clones until scrollWidth is comfortably larger than viewport (tweak factor if needed)
             const targetWidth = Math.max(document.documentElement.clientWidth * 2, frameworksContainer.clientWidth * 2);
             let safety = 0;
             while (frameworksContainer.scrollWidth < targetWidth && safety < 8) {
@@ -94,38 +217,26 @@ document.addEventListener('DOMContentLoaded', function () {
             frameworksContainer.style.animationPlayState = 'paused';
         }
         function resumeMarquee() {
-            // if animation style removed for restart, ensure it's running
             frameworksContainer.style.animationPlayState = 'running';
         }
 
         frameworksContainer.addEventListener('mouseenter', pauseMarquee);
         frameworksContainer.addEventListener('mouseleave', resumeMarquee);
-
-        // Touch & pointer events (mobile)
         frameworksContainer.addEventListener('touchstart', pauseMarquee, { passive: true });
         frameworksContainer.addEventListener('touchend', resumeMarquee);
         frameworksContainer.addEventListener('pointerdown', pauseMarquee);
         frameworksContainer.addEventListener('pointerup', resumeMarquee);
-
-        // Also handle visibilitychange (pause when switching tabs)
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) pauseMarquee(); else resumeMarquee();
         });
 
-        // Restart CSS animation safely (useful on orientationchange/resize)
         function restartMarqueeAnimation() {
-            // remove existing animation to force restart
             frameworksContainer.style.animation = 'none';
-            // force reflow
-            // eslint-disable-next-line no-unused-expressions
             frameworksContainer.offsetHeight;
-            // clear inline style so CSS takes over again (or restore if you dynamically set it)
             frameworksContainer.style.animation = '';
-            // ensure it's running
             frameworksContainer.style.animationPlayState = 'running';
         }
 
-        // On resize/orientationchange re-clone and restart
         let resizeTimeout;
         function onResizeOrOrientation() {
             clearTimeout(resizeTimeout);
@@ -141,8 +252,6 @@ document.addEventListener('DOMContentLoaded', function () {
         frameworksContainer.addEventListener('click', (ev) => {
             const btn = ev.target.closest('.view-projects-button');
             if (!btn) return;
-
-            // Find the framework name from the nearest .framework-card h3 (defensive)
             const card = btn.closest('.framework-card');
             let frameworkName = null;
             if (card) {
@@ -152,15 +261,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let targetId = '#projects';
             if (frameworkName) {
-                // sanitize (lowercase + dashes)
                 const slug = frameworkName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
                 targetId = `#projects-${slug}`;
             }
 
             const targetElement = document.querySelector(targetId) || document.querySelector('#projects');
             if (!targetElement) return;
-
-            // account for fixed header (approx 80px) and smooth scroll
             const headerOffset = 80;
             const top = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
             window.scrollTo({ top, behavior: 'smooth' });
@@ -168,22 +274,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // --- Reveal-on-scroll using IntersectionObserver (handles dynamic content) ---
         const revealSelector = '.section-header, .skill-item, .project-card, .framework-card';
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.08
-        };
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.08 };
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    // If you want one-time reveal only:
                     revealObserver.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        // Observe existing & future nodes that match selector
         function observeRevealElements(root = document) {
             Array.from(root.querySelectorAll(revealSelector)).forEach(el => {
                 if (!el.__revealObserved) {
@@ -193,7 +293,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
         observeRevealElements();
-        // If we clone nodes, observe them too:
         const mo = new MutationObserver(mutations => {
             for (const m of mutations) {
                 if (m.addedNodes && m.addedNodes.length) {
@@ -205,14 +304,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         mo.observe(document.body, { childList: true, subtree: true });
 
-        // initial reveal run for elements already visible
-        // (IntersectionObserver handles this automatically, but keep a fallback)
-        // revealOnScroll fallback removed in favor of observer
-
     }
 
     // Projects setup - Grouped by framework
     const PROJECT_GROUPS = [
+        // same as before...
         {
             title: 'React',
             projects: [
@@ -225,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     name: 'E-commerce Dashboard',
                     description: 'Dashboard for managing e-commerce products and orders.',
-                    link: '#',
+                    link: 'https://Qambar-Abbas.github.io/React-E-commerce-Dashboard"',
                     gradient: 'linear-gradient(135deg, #4A5568, #7897cbff)'
                 }
             ]
@@ -234,9 +330,15 @@ document.addEventListener('DOMContentLoaded', function () {
             title: 'Flutter',
             projects: [
                 {
+                    name: 'Eat-it',
+                    description: 'Family weekly menu scheduling app with private chat room.',
+                    link: 'https://github.com/QambarOfficial/eatit.git',
+                    gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
+                },
+                {
                     name: 'Khums Calculator',
                     description: 'Khums calculation app for financial management and record keeping.',
-                    link: 'https://github.com/shozab-ctl/khums-app.git',
+                    link: 'https://play.google.com/apps/testing/com.info313techsolutions.khums',
                     gradient: 'linear-gradient(135deg, #996db6ff, #f31575ff)'
                 },
                 {
@@ -244,12 +346,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     description: 'Cross-platform CRM mobile software.',
                     link: 'https://play.google.com/store/apps/details?id=app.instaview365.nuevadesk',
                     gradient: 'linear-gradient(135deg, #662D8C, #ED1E79)'
-                },
-                {
-                    name: 'Eat-it',
-                    description: 'Family weekly menu scheduling app with private chat room.',
-                    link: 'https://github.com/QambarOfficial/eatit.git',
-                    gradient: 'linear-gradient(135deg, #EE9CA7, #FFDDE1)'
                 }
             ]
         },
@@ -308,11 +404,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const projectsContainer = document.querySelector('.projects-container');
     if (projectsContainer) {
-        // clear if anything present
         projectsContainer.innerHTML = '';
-
-        // For demonstration we will reuse your existing PROJECT_GROUPS if defined in this file.
-        // If you keep PROJECT_GROUPS above uncommented, this will populate correctly.
         if (typeof PROJECT_GROUPS !== 'undefined' && PROJECT_GROUPS.length) {
             PROJECT_GROUPS.forEach(group => {
                 const headline = document.createElement('h3');
@@ -382,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Inject reveal CSS
+    // Inject reveal CSS (kept for compatibility)
     const style = document.createElement('style');
     style.textContent = `
       .section-header, .skill-item, .project-card, .framework-card {
