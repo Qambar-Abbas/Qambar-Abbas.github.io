@@ -1031,7 +1031,7 @@
                     <div class="floating-badge badge-1">
                         <span class="iconify" data-icon="mdi:rocket-launch"></span>
                         <div class="badge-text">
-                            <strong>10+</strong>
+                            <strong>25+</strong>
                             <span>Projects</span>
                         </div>
                     </div>
@@ -1144,6 +1144,10 @@
                             <span class="iconify" data-icon="logos:git"></span>
                             <span>Git</span>
                         </div>
+                        <div class="skill-item">
+                            <span class="iconify" data-icon="logos:postman"></span>
+                            <span>Postman</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1192,11 +1196,33 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 Qambar Abbas | v2.0.0</p>
+            <p>&copy; 2024 Qambar Abbas | v2.0.1</p>
         </div>
     </footer>
 
     <script>
+        // Function to determine if it's dark time (6 PM to 5 AM)
+        function isDarkTime() {
+            const currentHour = new Date().getHours();
+            return currentHour >= 18 || currentHour < 5;
+        }
+
+        // Function to set theme based on time
+        function setThemeBasedOnTime() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+
+            if (isDarkTime()) {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('themePreference', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('themePreference', 'light');
+            }
+        }
+
         // Projects Data
         const projects = [
             {
@@ -1319,16 +1345,24 @@
         const themeIcon = document.getElementById('themeIcon');
         const html = document.documentElement;
 
-        const savedTheme = window.themePreference || 'light';
-        html.setAttribute('data-theme', savedTheme);
-        themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        // Check if user has a saved theme preference
+        const savedTheme = localStorage.getItem('themePreference');
+
+        // If no saved preference, set theme based on time
+        if (!savedTheme) {
+            setThemeBasedOnTime();
+        } else {
+            // Use saved preference
+            html.setAttribute('data-theme', savedTheme);
+            themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        }
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', newTheme);
             themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-            window.themePreference = newTheme;
+            localStorage.setItem('themePreference', newTheme);
         });
 
         // Mobile Menu
@@ -1378,6 +1412,14 @@
                 }
             });
         });
+
+        // Check for theme change every minute (to handle time transitions)
+        setInterval(() => {
+            // Only update if user hasn't manually set a preference
+            if (!localStorage.getItem('themePreference')) {
+                setThemeBasedOnTime();
+            }
+        }, 60000); // Check every minute
     </script>
 </body>
 
