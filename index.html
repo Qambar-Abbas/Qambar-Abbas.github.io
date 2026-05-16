@@ -2,40 +2,31 @@
 <html lang="en">
 
 <head>
-    <!-- Keep your existing verification -->
     <meta name="google-site-verification" content="_j-BzK-1o938q0Sea1I_Fx58afH8EcnQ6gn5RiXlEJM" />
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Title (unchanged) -->
     <title>QAMBAR ABBAS | AI/ML Developer Portfolio</title>
 
-    <!-- Improved meta description (still concise) -->
     <meta name="description"
         content="Qambar Abbas — AI/ML Developer (Noida International University). Python | NLP | Deep Learning | Django | React. Portfolio, projects and contact.">
 
-    <!-- Expanded keywords including name variants and institutions -->
     <meta name="keywords"
         content="Qambar Abbas, Qambar-Abbas, qambar abbas, qambar-abbas, qambar_here, NIU, Noida International University, Oxford Public School, AI ML, Machine Learning, NLP, Deep Learning, Django, Python, React">
 
-    <!-- Stronger Googlebot instructions -->
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="robots" content="index, follow">
 
-    <!-- Canonical (use the exact published URL of your page) -->
     <link rel="canonical" href="https://qambar-abbas.github.io/">
-
-    <!-- Hreflang (if only English, keep en) -->
     <link rel="alternate" href="https://qambar-abbas.github.io/" hreflang="en" />
 
-    <!-- Social: Open Graph (improved) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="QAMBAR ABBAS | AI/ML Developer Portfolio">
     <meta property="og:description"
         content="Aspiring AI/ML Engineer (Noida International University). Explore projects in NLP, Deep Learning, and full-stack ML integrations.">
     <meta property="og:url" content="https://qambar-abbas.github.io/">
-    <!-- OG image — use a 1200x630 image (create an OG image named og-image.png in root) -->
     <meta property="og:image" content="https://qambar-abbas.github.io/og-image.png">
     <meta property="og:image:alt" content="Qambar Abbas — AI/ML Developer">
 
@@ -46,18 +37,21 @@
         content="AI/ML Engineer (NIU) — Python, NLP, Deep Learning. See projects, contact, and GitHub.">
     <meta name="twitter:image" content="https://qambar-abbas.github.io/og-image.png">
 
-    <!-- Rel-me + author -->
     <link rel="author" href="https://www.linkedin.com/in/qambar-abbas-500438307/">
     <link rel="me" href="https://github.com/Qambar-Abbas">
 
-    <!-- Preconnects (keep as is + add analytics if you use any) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Fallback favicon (add favicon.ico at root) -->
     <link rel="icon" href="/favicon.ico" sizes="any">
 
-    <!-- === JSON-LD structured data (Person + WebSite + Breadcrumb) === -->
+    <!--
+        FIX 1: Removed telephone from JSON-LD (personal phone numbers can trigger
+                deceptive-site heuristics and are a privacy risk).
+        FIX 2: Removed SearchAction potentialAction (fake search on a static site
+                is flagged as deceptive by Safe Browsing crawlers).
+        FIX 3: Cleaned up alternateName list to only real public handles.
+    -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -66,7 +60,7 @@
           "@type": "Person",
           "@id": "https://qambar-abbas.github.io/#person",
           "name": "Qambar Abbas",
-          "alternateName": ["Qambar-Abbas", "qambar abbas", "qambar-abbas", "qambar_here"],
+          "alternateName": ["Qambar-Abbas", "qambar_here"],
           "jobTitle": "AI/ML Developer",
           "url": "https://qambar-abbas.github.io/",
           "sameAs": [
@@ -85,8 +79,6 @@
             }
           ],
           "knowsAbout": ["Python", "NLP", "Deep Learning", "Django", "React", "REST API", "TensorFlow", "PyTorch", "spaCy"],
-          "email": "mailto:qambarofficial313@gmail.com",
-          "telephone": "+918510842558",
           "description": "Aspiring AI/ML Engineer with experience in Python, NLP, Deep Learning, REST APIs and production ML workflows."
         },
         {
@@ -99,11 +91,6 @@
           },
           "publisher": {
             "@id": "https://qambar-abbas.github.io/#person"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://qambar-abbas.github.io/?s={search_term_string}",
-            "query-input": "required name=search_term_string"
           }
         },
         {
@@ -119,11 +106,11 @@
     }
     </script>
 
-    <!-- Keep your existing font link & icon script -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js" defer></script>
+    <!-- Iconify Icon web component v3.0.2 (latest) — replaces legacy v1 span approach -->
+    <script src="https://code.iconify.design/iconify-icon/3.0.2/iconify-icon.min.js" defer></script>
 
     <style>
         :root {
@@ -286,7 +273,6 @@
             }
         }
 
-        /* Shooting stars */
         .shooting-star {
             position: absolute;
             width: 2px;
@@ -313,7 +299,6 @@
             }
         }
 
-        /* Hide regular particles in dark mode */
         :root[data-theme="dark"] .bg-particles {
             opacity: 0;
         }
@@ -681,7 +666,7 @@
             animation-delay: 1s;
         }
 
-        .floating-badge .iconify {
+        .floating-badge iconify-icon {
             font-size: 2rem;
         }
 
@@ -810,7 +795,7 @@
             box-shadow: var(--shadow-lg);
         }
 
-        .skill-item .iconify {
+        .skill-item iconify-icon {
             font-size: 2.5rem;
             transition: var(--transition);
             max-width: 100%;
@@ -818,7 +803,7 @@
             object-fit: contain;
         }
 
-        .skill-item:hover .iconify {
+        .skill-item:hover iconify-icon {
             transform: scale(1.15) rotate(5deg);
         }
 
@@ -961,7 +946,7 @@
             box-shadow: var(--shadow-xl);
         }
 
-        .contact-card .iconify {
+        .contact-card iconify-icon {
             font-size: 3rem;
             color: var(--primary);
         }
@@ -977,25 +962,21 @@
             font-size: 0.95rem;
         }
 
-        /* Replace original footer rule */
         footer {
             position: relative;
             z-index: 2;
             background: var(--surface);
             padding: 1rem 0;
-            /* reduced from 3rem */
             text-align: center;
             border-top: 1px solid var(--border);
         }
 
         footer p {
             margin: 0;
-            /* remove default margins that add height */
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.3;
         }
-
 
         /* Responsive */
         @media (max-width: 968px) {
@@ -1132,14 +1113,14 @@
                 <div class="hero-image">
                     <img src="profile.png" alt="Qambar Abbas" class="profile-photo">
                     <div class="floating-badge badge-1">
-                        <span class="iconify" data-icon="mdi:rocket-launch"></span>
+                        <iconify-icon icon="mdi:rocket-launch"></iconify-icon>
                         <div class="badge-text">
                             <strong>25+</strong>
                             <span>Projects</span>
                         </div>
                     </div>
                     <div class="floating-badge badge-2">
-                        <span class="iconify" data-icon="mdi:code-braces"></span>
+                        <iconify-icon icon="mdi:code-braces"></iconify-icon>
                         <div class="badge-text">
                             <strong>5+</strong>
                             <span>Frameworks</span>
@@ -1162,31 +1143,31 @@
                     <h3>Languages</h3>
                     <div class="skill-items">
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:python"></span>
+                            <iconify-icon icon="logos:python"></iconify-icon>
                             <span>Python</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:javascript"></span>
+                            <iconify-icon icon="logos:javascript"></iconify-icon>
                             <span>JavaScript</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:dart"></span>
+                            <iconify-icon icon="logos:dart"></iconify-icon>
                             <span>Dart</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:java"></span>
+                            <iconify-icon icon="logos:java"></iconify-icon>
                             <span>Java</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:go"></span>
+                            <iconify-icon icon="logos:go"></iconify-icon>
                             <span>Go</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:c-plusplus"></span>
+                            <iconify-icon icon="logos:c-plusplus"></iconify-icon>
                             <span>C++</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="vscode-icons:file-type-sql"></span>
+                            <iconify-icon icon="vscode-icons:file-type-sql"></iconify-icon>
                             <span>SQL</span>
                         </div>
                     </div>
@@ -1195,27 +1176,27 @@
                     <h3>AI/ML Stack</h3>
                     <div class="skill-items">
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:tensorflow"></span>
+                            <iconify-icon icon="logos:tensorflow"></iconify-icon>
                             <span>TensorFlow</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:pytorch-icon"></span>
+                            <iconify-icon icon="logos:pytorch-icon"></iconify-icon>
                             <span>PyTorch</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="simple-icons:scikitlearn"></span>
+                            <iconify-icon icon="simple-icons:scikitlearn"></iconify-icon>
                             <span>Scikit-learn</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="simple-icons:pandas"></span>
+                            <iconify-icon icon="simple-icons:pandas"></iconify-icon>
                             <span>Pandas</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="simple-icons:numpy"></span>
+                            <iconify-icon icon="simple-icons:numpy"></iconify-icon>
                             <span>NumPy</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:matplotlib"></span>
+                            <iconify-icon icon="logos:matplotlib"></iconify-icon>
                             <span>Matplotlib</span>
                         </div>
                     </div>
@@ -1224,31 +1205,31 @@
                     <h3>Frameworks & Tools</h3>
                     <div class="skill-items">
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:react"></span>
+                            <iconify-icon icon="logos:react"></iconify-icon>
                             <span>React</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:flutter"></span>
+                            <iconify-icon icon="logos:flutter"></iconify-icon>
                             <span>Flutter</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:django"></span>
+                            <iconify-icon icon="logos:django"></iconify-icon>
                             <span>Django</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:nodejs"></span>
+                            <iconify-icon icon="logos:nodejs"></iconify-icon>
                             <span>Node.js</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:docker"></span>
+                            <iconify-icon icon="logos:docker"></iconify-icon>
                             <span>Docker</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:git"></span>
+                            <iconify-icon icon="logos:git"></iconify-icon>
                             <span>Git</span>
                         </div>
                         <div class="skill-item">
-                            <span class="iconify" data-icon="logos:postman"></span>
+                            <iconify-icon icon="logos:postman"></iconify-icon>
                             <span>Postman</span>
                         </div>
                     </div>
@@ -1277,18 +1258,24 @@
                     something amazing together.</p>
             </div>
             <div class="contact-grid">
+                <!--
+                    FIX 4: Added rel="noopener noreferrer" to all external links (target="_blank"
+                            without this is a known security flag for Safe Browsing scanners).
+                -->
                 <a href="mailto:qambarofficial313@gmail.com" class="contact-card">
-                    <span class="iconify" data-icon="mdi:email"></span>
+                    <iconify-icon icon="mdi:email"></iconify-icon>
                     <h3>Email</h3>
                     <p>qambarofficial313@gmail.com</p>
                 </a>
-                <a href="https://www.linkedin.com/in/qambar-abbas-500438307/" target="_blank" class="contact-card">
-                    <span class="iconify" data-icon="mdi:linkedin"></span>
+                <a href="https://www.linkedin.com/in/qambar-abbas-500438307/" target="_blank" rel="noopener noreferrer"
+                    class="contact-card">
+                    <iconify-icon icon="mdi:linkedin"></iconify-icon>
                     <h3>LinkedIn</h3>
                     <p>Connect with me</p>
                 </a>
-                <a href="https://github.com/Qambar-Abbas" target="_blank" class="contact-card">
-                    <span class="iconify" data-icon="mdi:github"></span>
+                <a href="https://github.com/Qambar-Abbas" target="_blank" rel="noopener noreferrer"
+                    class="contact-card">
+                    <iconify-icon icon="mdi:github"></iconify-icon>
                     <h3>GitHub</h3>
                     <p>View my code</p>
                 </a>
@@ -1299,7 +1286,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 Qambar Abbas | v2.0.2</p>
+            <p>&copy; 2025 Qambar Abbas | v2.1.1</p>
         </div>
     </footer>
 
@@ -1326,7 +1313,12 @@
             }
         }
 
-        // Projects Data
+        /*
+         * Projects Data
+         * FIX 5: Replaced Khums Calculator (Play Store testing/internal link — flagged
+         *         by Safe Browsing) with Attendance Lab (public GitHub repo link).
+         * FIX 6: Added rel="noopener noreferrer" on all dynamically-rendered project links.
+         */
         const projects = [
             {
                 title: "Inbox Cleaner & Classifier",
@@ -1364,10 +1356,10 @@
                 gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
             },
             {
-                title: "Khums Calculator",
-                description: "Financial management tool for Khums calculation with record keeping and comprehensive reporting features.",
-                tags: ["Flutter", "Finance", "Mobile"],
-                link: "https://play.google.com/apps/testing/com.info313techsolutions.khums",
+                title: "Attendance Lab",
+                description: "Flutter-based Android college application for streamlined attendance tracking and lab session management.",
+                tags: ["Flutter", "Android", "College"],
+                link: "https://github.com/Qambar-Abbas/Attendance-Lab-Flutter-based-collage-project-android-application.git",
                 gradient: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)"
             }
         ];
@@ -1385,9 +1377,9 @@
                     <div class="project-tags">
                         ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
-                    <a href="${project.link}" target="_blank" class="project-link">
+                    <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="project-link">
                         View Project
-                        <span class="iconify" data-icon="mdi:arrow-right"></span>
+                        <iconify-icon icon="mdi:arrow-right"></iconify-icon>
                     </a>
                 </div>
             `;
@@ -1409,12 +1401,10 @@
         // Space Travel Background
         const spaceBackground = document.getElementById('spaceBackground');
 
-        // Create stars
         for (let i = 0; i < 200; i++) {
             const star = document.createElement('div');
             star.className = 'star';
 
-            // Random size
             const size = Math.random();
             if (size > 0.8) {
                 star.classList.add('large');
@@ -1424,7 +1414,6 @@
                 star.classList.add('small');
             }
 
-            // Random position
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
             star.style.animationDelay = Math.random() * 3 + 's';
@@ -1432,7 +1421,6 @@
             spaceBackground.appendChild(star);
         }
 
-        // Create shooting stars
         for (let i = 0; i < 5; i++) {
             const shootingStar = document.createElement('div');
             shootingStar.className = 'shooting-star';
@@ -1448,14 +1436,11 @@
         const themeIcon = document.getElementById('themeIcon');
         const html = document.documentElement;
 
-        // Check if user has a saved theme preference
         const savedTheme = localStorage.getItem('themePreference');
 
-        // If no saved preference, set theme based on time
         if (!savedTheme) {
             setThemeBasedOnTime();
         } else {
-            // Use saved preference
             html.setAttribute('data-theme', savedTheme);
             themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
         }
@@ -1476,7 +1461,6 @@
             header.classList.toggle('active');
         });
 
-        // Close menu on link click
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', () => {
                 header.classList.remove('active');
@@ -1516,13 +1500,11 @@
             });
         });
 
-        // Check for theme change every minute (to handle time transitions)
         setInterval(() => {
-            // Only update if user hasn't manually set a preference
             if (!localStorage.getItem('themePreference')) {
                 setThemeBasedOnTime();
             }
-        }, 60000); // Check every minute
+        }, 60000);
     </script>
 
 </body>
