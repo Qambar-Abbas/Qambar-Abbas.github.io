@@ -1,8 +1,4 @@
 User-agent: *
 Allow: /
 
-# link to sitemap
 Sitemap: https://qambar-abbas.github.io/sitemap.xml
-
-# Crawl-delay is optional for some bots
-# Crawl-delay: 10
